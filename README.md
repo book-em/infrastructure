@@ -7,13 +7,14 @@ locally run the whole microservice architecture using Docker Compose.
 
 1) Extract keys from `/keys`.
 
-2) Build and run:
+2) Use make to start/stop:
 ```sh
 make
 
 # Or...
-make build # Build only
-make run # Build and run (default)
+make run # Build and run, same as `make`
+make build # Build
+make down # Shut down
 ```
 
 ## Environment variables
