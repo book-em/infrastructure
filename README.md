@@ -9,7 +9,11 @@ locally run the whole microservice architecture using Docker Compose.
 
 2) Build and run:
 ```sh
-./run.sh
+make
+
+# Or...
+make build # Build only
+make run # Build and run (default)
 ```
 
 ## Environment variables
