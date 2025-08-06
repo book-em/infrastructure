@@ -1,7 +1,10 @@
 .PHONY: run
 
 run:
-	./run.sh
+	./run.sh "run"
 
 build:
-	./run.sh true
+	./run.sh "build"
+
+down:
+	./run.sh "down"

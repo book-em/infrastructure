@@ -24,15 +24,20 @@ for file in "${ENV_FILES[@]}"; do
 done
 
 # Parse argument
-just_build="${1:-false}"
+mode="${1:-run}"
+echo "mode is set to $mode"
 
-# Build
-docker compose build
+if [[ "$mode" == "run" ]]; then
+  echo "Building and running..."
 
-# Run
-if [[ "$just_build" == "true" ]]; then
-  echo "just_build is set to true, not running..."
-else
-  echo "just_build is not set, running..."
+  docker compose build
   docker compose up
+elif [[ "$mode" == "build" ]]; then
+  echo "Just building..."
+
+  docker compose build
+elif [[ "$mode" == "down" ]]; then
+  echo "Shutting down..."
+
+  docker compose down 
 fi
