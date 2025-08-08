@@ -23,21 +23,33 @@ for file in "${ENV_FILES[@]}"; do
   fi
 done
 
-# Parse argument
+# Parse arguments
+
 mode="${1:-run}"
-echo "mode is set to $mode"
+profile="${2:-''}"
+echo "mode is set to: $mode"
+echo "profile is: $profile"
+
+# Create the proper command (with profile specified)
+
+compose_cmd="docker compose"
+if [[ -n "$profile" ]]; then
+  compose_cmd+=" --profile $profile" 
+fi
+
+# Execute
 
 if [[ "$mode" == "run" ]]; then
   echo "Building and running..."
 
-  docker compose build
-  docker compose up
+  $compose_cmd build
+  $compose_cmd up
 elif [[ "$mode" == "build" ]]; then
   echo "Just building..."
 
-  docker compose build
+  $compose_cmd build
 elif [[ "$mode" == "down" ]]; then
   echo "Shutting down..."
 
-  docker compose down 
+  $compose_cmd down 
 fi
