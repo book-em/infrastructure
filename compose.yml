@@ -4,7 +4,7 @@ services:
 
   user-service:
     restart: always
-    build: 
+    build:
       context: ${USER_SERVICE_PATH}/src/
       dockerfile: Dockerfile
     ports:
@@ -24,7 +24,11 @@ services:
       - ${USER_SERVICE_PATH}/keys/private_key.key:/app/keys/private_key.key:ro
       - ${USER_SERVICE_PATH}/keys/public_key.pem:/app/keys/public_key.pem:ro
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider --tries=1 --no-verbose http://user-service:8080/healthz || exit 1"]
+      test:
+        [
+          "CMD-SHELL",
+          "wget --spider --tries=1 --no-verbose http://user-service:8080/healthz || exit 1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -49,9 +53,20 @@ services:
       retries: 5
 
   # -----------------------------------------------------------------------------------------
+  # Web app
+
+  web-app:
+    restart: always
+    build:
+      context: ${WEB_APP_PATH}/
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+
+  # -----------------------------------------------------------------------------------------
   # Utility and debug
 
-  adminer:   
+  adminer:
     image: adminer:4.8.0-standalone
     restart: always
     ports:
