@@ -57,6 +57,7 @@ services:
 
   web-app:
     restart: always
+    profiles: [full]
     build:
       context: ${WEB_APP_PATH}/
       dockerfile: Dockerfile
