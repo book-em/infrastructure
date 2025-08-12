@@ -52,6 +52,9 @@ services:
       timeout: 3s
       retries: 5
 
+  # -----------------------------------------------------------------------------------------
+  # Room Service
+
   room-service:
     restart: always
     build:
@@ -100,6 +103,15 @@ services:
       timeout: 3s
       retries: 5
 
+  room-images:
+    restart: always
+    build:
+      context: ${ROOM_SERVICE_PATH}/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "${ROOM_SERVICE_IMAGES_PORT}:80"    
+    volumes:
+      - ${ROOM_SERVICE_PATH}/nginx/images:/usr/share/nginx/html/images/
 
   # -----------------------------------------------------------------------------------------
   # Web app
