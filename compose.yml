@@ -74,6 +74,7 @@ services:
         condition: service_healthy
     volumes:
       - ${ROOM_SERVICE_PATH}/keys/public_key.pem:/app/keys/public_key.pem:ro
+      - ${ROOM_SERVICE_PATH}/nginx/images:/app/images/
     healthcheck:
       test:
         [
