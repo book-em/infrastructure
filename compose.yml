@@ -104,7 +104,7 @@ services:
       timeout: 3s
       retries: 5
 
-  room-images:
+  room-image-server:
     restart: always
     build:
       context: ${ROOM_SERVICE_PATH}/nginx
