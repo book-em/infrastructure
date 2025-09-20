@@ -1,8 +1,23 @@
 #!/bin/bash
 
-# run.sh [just_build]
+# Usage:
 #
-# - just_build: If set to "true", docker compose will only build.
+#
+# run.sh
+#
+#   First argument is the command (run, build or down)
+#
+#   Second argument is the profile. Currently only default and `full` are
+#   supported, where `full` builds the web app (otherwise, use npm run dev).
+#
+# run.sh run 
+# run.sh build 
+# run.sh down
+#
+# run.sh run   full 
+# run.sh build full 
+# run.sh down  full
+#
 
 set -e
 
@@ -35,6 +50,19 @@ echo "profile is: $profile"
 compose_cmd="docker compose"
 if [[ -n "$profile" ]]; then
   compose_cmd+=" --profile $profile" 
+fi
+
+# Generate env.js for web-app
+
+if [[ "$profile" == "full" ]]; then
+  cat <<EOF > ./temp/web-app-env.js
+  window.__ENV__ = {
+    VITE_USER_SERVICE_URL: "http://localhost:${USER_SERVICE_PORT}",
+    VITE_ROOM_SERVICE_URL: "http://localhost:${ROOM_SERVICE_PORT}",
+    VITE_ROOM_SERVICE_IMAGES_URL: "http://localhost:${ROOM_SERVICE_IMAGES_PORT}",
+    VITE_RESERVATION_SERVICE_URL: "http://localhost:${RESERVATION_SERVICE_PORT}"
+  };
+EOF
 fi
 
 # Execute
