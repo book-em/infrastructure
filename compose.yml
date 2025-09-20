@@ -177,11 +177,8 @@ services:
     build:
       context: ${WEB_APP_PATH}/
       dockerfile: Dockerfile
-    environment:
-    - VITE_USER_SERVICE_URL=http://user-service:${USER_SERVICE_PORT}
-    - VITE_ROOM_SERVICE_URL=http://room-service:${ROOM_SERVICE_PORT}
-    - VITE_ROOM_SERVICE_IMAGES_URL=http://room-image-server:${ROOM_SERVICE_IMAGES_PORT}
-    - VITE_RESERVATION_SERVICE_URL=http://reservation-service:${RESERVATION_SERVICE_PORT}
+    volumes:
+      - ./temp/web-app-env.js:${WEB_APP_ENV_PATH}
     ports:
       - "80:80"
 
