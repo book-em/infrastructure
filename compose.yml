@@ -178,7 +178,7 @@ services:
       context: ${WEB_APP_PATH}/
       dockerfile: Dockerfile
     volumes:
-      - ./temp/web-app-env.js:${WEB_APP_ENV_PATH}
+      - ./temp/web-app-env.js:/usr/share/nginx/html/env.js
     ports:
       - "80:80"
 
