@@ -17,6 +17,9 @@ services:
       DB_PASSWORD: password123
       JWT_PRIVATE_KEY_PATH: /app/keys/private_key.key
       JWT_PUBLIC_KEY_PATH: /app/keys/public_key.pem
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4318"
+      SERVICE_NAME: user-service
+      DEPLOYMENT_ENV: dev
     depends_on:
       user-db:
         condition: service_healthy
@@ -69,6 +72,7 @@ services:
       DB_USER: bookem_roomdb_user
       DB_PASSWORD: password123
       JWT_PUBLIC_KEY_PATH: /app/keys/public_key.pem
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4318"
     depends_on:
       user-db:
         condition: service_healthy
@@ -133,6 +137,7 @@ services:
       DB_PASSWORD: password123
       JWT_PRIVATE_KEY_PATH: /app/keys/private_key.key
       JWT_PUBLIC_KEY_PATH: /app/keys/public_key.pem
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4318"
     depends_on:
       reservation-db:
         condition: service_healthy
@@ -183,13 +188,19 @@ services:
       - "80:80"
 
   # -----------------------------------------------------------------------------------------
-  # Utility and debug
+  # Utility, debug and telemetry
 
   adminer:
     image: adminer:4.8.0-standalone
     restart: always
     ports:
       - "${ADMINER_PORT}:8080"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "4318:4318"     # OTLP HTTP
+      - "16686:16686"   # Jaeger UI
 
 volumes:
   user_pgdata:
