@@ -73,6 +73,8 @@ services:
       DB_PASSWORD: password123
       JWT_PUBLIC_KEY_PATH: /app/keys/public_key.pem
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4318"
+      SERVICE_NAME: room-service
+      DEPLOYMENT_ENV: dev
     depends_on:
       user-db:
         condition: service_healthy
