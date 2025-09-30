@@ -140,6 +140,8 @@ services:
       JWT_PRIVATE_KEY_PATH: /app/keys/private_key.key
       JWT_PUBLIC_KEY_PATH: /app/keys/public_key.pem
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4318"
+      SERVICE_NAME: reservation-service
+      DEPLOYMENT_ENV: dev
     depends_on:
       reservation-db:
         condition: service_healthy
