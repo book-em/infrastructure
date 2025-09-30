@@ -206,6 +206,15 @@ services:
       - "4318:4318"     # OTLP HTTP
       - "16686:16686"   # Jaeger UI
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    restart: always
+
 volumes:
   user_pgdata:
     name: bookem-user-service-db-volume
@@ -213,3 +222,5 @@ volumes:
     name: bookem-room-service-db-volume  
   reservation_pgdata:
     name: bookem-reservation-service-db-volume
+  grafana-storage:
+    name: bookem-grafana-storage-volume
