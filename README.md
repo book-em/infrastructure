@@ -22,6 +22,8 @@ make down PROFILE=full  # Shut down, including the web app
 # See `Makefile` for usage
 ```
 
+3) To view Grafana, go to http://localhost:3000 (username `admin`, password `admin`)
+
 ## Environment variables
 
 This is the assumed project layout on your computer:
