@@ -1,0 +1,27 @@
+local.file_match "applogs" {
+    path_targets = [
+        { 
+            __path__ = "/app/logs/user-service/*.log",
+            service  = "user-service",
+        },
+        { 
+            __path__ = "/app/logs/room-service/*.log",
+            service  = "room-service",
+        },
+        { 
+            __path__ = "/app/logs/reservation-service/*.log",
+            service  = "reservation-service",
+        },
+    ]
+}
+
+loki.source.file "files" {
+    targets    = local.file_match.applogs.targets
+    forward_to = [loki.write.default.receiver]
+}
+
+loki.write "default" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}
