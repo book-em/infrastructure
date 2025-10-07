@@ -229,6 +229,14 @@ services:
     ports:
       - "3100:3100"
 
+  alloy:
+    image: grafana/alloy:latest
+    volumes:
+      - ./logs:/app/logs
+      - ./alloy/config.alloy:/etc/alloy/config.alloy
+    ports:
+      - "12345:12345"
+
 volumes:
   user_pgdata:
     name: bookem-user-service-db-volume
