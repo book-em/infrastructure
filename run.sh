@@ -21,6 +21,12 @@
 
 set -e
 
+# Create log directories
+
+mkdir -p ./logs/user-service
+mkdir -p ./logs/room-service
+mkdir -p ./logs/reservation-service
+
 # Load env vars safely
 ENV_FILES=(
   "./default.env"
