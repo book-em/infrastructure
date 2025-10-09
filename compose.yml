@@ -237,6 +237,12 @@ services:
     ports:
       - "12345:12345"
 
+  prometheus:
+    image: prom/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
 volumes:
   user_pgdata:
     name: bookem-user-service-db-volume
