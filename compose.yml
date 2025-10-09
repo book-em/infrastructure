@@ -243,6 +243,31 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prom_data:/prometheus
+
+  node_exporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+    pid: "host"
+    command:
+      - '--no-collector.arp'
+      - '--no-collector.bonding'
+      - '--no-collector.conntrack'
+      - '--no-collector.diskstats'
+      - '--no-collector.filefd'
+      - '--no-collector.hwmon'
+      - '--no-collector.infiniband'
+      - '--no-collector.ipvs'
+      - '--no-collector.nfs'
+      - '--no-collector.sockstat'
+      - '--no-collector.textfile'
+      - '--no-collector.vmstat'
+      - '--collector.filesystem.ignored-mount-points=^/(run/user|var/lib/docker/.+)'
+      - '--collector.filesystem.ignored-fs-types=tmpfs,overlay'
+ 
 volumes:
   user_pgdata:
     name: bookem-user-service-db-volume
