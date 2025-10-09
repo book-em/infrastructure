@@ -268,6 +268,16 @@ services:
       - '--collector.filesystem.ignored-mount-points=^/(run/user|var/lib/docker/.+)'
       - '--collector.filesystem.ignored-fs-types=tmpfs,overlay'
  
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
 volumes:
   user_pgdata:
     name: bookem-user-service-db-volume
@@ -277,3 +287,4 @@ volumes:
     name: bookem-reservation-service-db-volume
   grafana-storage:
     name: bookem-grafana-storage-volume
+  prom_data:
