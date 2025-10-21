@@ -179,6 +179,57 @@ services:
       timeout: 3s
       retries: 5
 
+  # -----------------------------------------------------------------------------------------
+  # Notification Service
+
+
+  notification-service:
+    restart: always
+    build:
+      context: ${NOTIFICATION_SERVICE_PATH}/src/
+      dockerfile: Dockerfile
+    ports:
+      - "${NOTIFICATION_SERVICE_PORT}:8080"
+    environment:
+      MONGO_URI: mongodb://notification-db:27017
+      MONGO_DB_NAME: notifications
+      JWT_PUBLIC_KEY_PATH: /app/keys/public_key.pem
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4318"
+      SERVICE_NAME: notification-service
+      DEPLOYMENT_ENV: dev
+    depends_on:
+      notification-db:
+        condition: service_healthy
+    volumes:
+      - ${NOTIFICATION_SERVICE_PATH}/keys/public_key.pem:/app/keys/public_key.pem:ro
+      - ./logs/notification-service:/app/logs
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --spider --tries=1 --no-verbose http://notification-service:8080/healthz || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  notification-db:
+    image: mongo:7
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: notifications
+    volumes:
+      - type: volume
+        source: notification_mongodb_data
+        target: /data/db
+    ports:
+      - "${NOTIFICATION_SERVICE_DB_PORT}:27017"
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval 'db.adminCommand(\"ping\")'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 
   # -----------------------------------------------------------------------------------------
   # Web app
@@ -285,6 +336,8 @@ volumes:
     name: bookem-room-service-db-volume  
   reservation_pgdata:
     name: bookem-reservation-service-db-volume
+  notification_mongodb_data:
+    name: bookem-notification-service-db-volume
   grafana-storage:
     name: bookem-grafana-storage-volume
   prom_data:
