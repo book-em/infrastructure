@@ -12,6 +12,10 @@ local.file_match "applogs" {
             __path__ = "/app/logs/reservation-service/*.log",
             service  = "reservation-service",
         },
+        { 
+            __path__ = "/app/logs/notification-service/*.log",
+            service  = "notification-service",
+        },
     ]
 }
 

@@ -26,6 +26,7 @@ set -e
 mkdir -p ./logs/user-service
 mkdir -p ./logs/room-service
 mkdir -p ./logs/reservation-service
+mkdir -p ./logs/notification-service
 
 # Load env vars safely
 ENV_FILES=(
@@ -66,7 +67,8 @@ if [[ "$profile" == "full" ]]; then
     VITE_USER_SERVICE_URL: "http://localhost:${USER_SERVICE_PORT}",
     VITE_ROOM_SERVICE_URL: "http://localhost:${ROOM_SERVICE_PORT}",
     VITE_ROOM_SERVICE_IMAGES_URL: "http://localhost:${ROOM_SERVICE_IMAGES_PORT}",
-    VITE_RESERVATION_SERVICE_URL: "http://localhost:${RESERVATION_SERVICE_PORT}"
+    VITE_RESERVATION_SERVICE_URL: "http://localhost:${RESERVATION_SERVICE_PORT}",
+    VITE_NOTIFICATION_SERVICE_URL: "http://localhost:${NOTIFICATION_SERVICE_PORT}",
   };
 EOF
 fi
